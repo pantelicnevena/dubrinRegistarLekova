@@ -1,0 +1,15 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "mysqlDs": {
+    "host": "localhost",
+    "port": 3306,
+    "database": "drugsdb2",
+    "name": "mysqlDs",
+    "user": "root",
+    "password": "",
+    "connector": "mysql"
+  }
+}

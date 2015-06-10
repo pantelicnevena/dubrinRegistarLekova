@@ -1,0 +1,180 @@
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <h2>
+      <span>Registar lekova</span>
+    </h2>
+  </div>
+</md-toolbar>
+
+<div layout="row" ng-controller="LekoviController">
+  <div flex="25" class="levo">
+    <div layout="column" class="pretraga_layout">
+      <md-content>
+        <md-input-container md-no-float flex>
+          <div layout="row">
+            <div flex="10"><ng-md-icon icon="search" size="20"></ng-md-icon></div>
+            <div flex>
+              <form ng-submit="pokreniPretragu(trazeniLek)">
+                <input  ng-model="trazeniLek" type="text" placeholder="Pretraga" id="pretraga" />
+              </form>
+            </div>
+            <div flex="10"><ng-md-icon icon="done" size="12" ng-click="pokreniPretragu(trazeniLek)"></ng-md-icon></div>
+            <!--<div flex="10"><ng-md-icon icon="clear" size="12" onclick="ponistiPretragu()"></ng-md-icon></div>-->
+
+          </div>
+        </md-input-container>
+      </md-content>
+
+      <md-content md-scroll-y flex class="lista_lekova_layout">
+        <md-progress-circular ng-show="!ucitano" class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+        <md-list>
+          <md-list-item ng-repeat="lek in lekovi | filter:search">
+            <p class="nazivLeka" title="{{lek.registeredName}}"ng-click="prikaz(lek)">{{lek.registeredName}}</p>
+          </md-list-item>
+        </md-list>
+        <p ng-show="nemaRez">Nema rezultata pretrage.\nPokušajte ponovo.</p>
+        <p ng-show="prikaziJos" ng-click="loadMore()">Učitaj još ...</p>
+      </md-content>
+    </div>
+  </div>
+
+  <div flex class="centar">
+    <md-card ng-show="podaci">
+      <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+          <h2 class="md-flex" ng-model="podaci" ng-bind="podaci.registeredName"></h2>
+        </div>
+      </md-toolbar>
+      <md-progress-circular ng-show="!ucitanSadrzaj" class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+      <div class="podaci">
+        <md-content class="md-padding">
+          <md-tabs >
+
+            <md-tab label="Osnovno">
+              <md-content class="md-padding">
+                <div layout="row">
+                  <div flex="45">
+                    <h1 class="md-display-2">Osnovni podaci</h1>
+                    <p><b>Oblik:</b> {{podaci.activeIngredient}} <br/>
+                      <b>Proizvođač:</b> <a onclick="pretrazi(this)" ng-bind="podaci.producer"></a><br/>
+                      <b>Terapijska grupa:</b> <a onclick="pretrazi(this)" ng-bind="podaci.activeIngredient"></a><br/>
+                      <span ng-show="direktivaProvera"><b>Direktiva:</b> {{direktiva.description}}<br/></span>
+                      <span ng-show="indProvera"><b>Indikacije:</b> {{ind.description}}<br/></span>
+                      <b>Rezim izdavanja:</b> {{podaci.issuing}}<br/>
+                      <b>Lista osiguranja:</b> {{osiguranje}}</p>
+                  </div>
+                  <div flex></div>
+                  <div flex="45">
+                    <h1 class="md-display-2">Pakovanja</h1>
+                    <div ng-repeat="pakovanje in pakovanja">
+                      <p class="text" >{{pakovanje.description}}</p>
+                    </div>
+                  </div>
+                </div>
+              </md-content>
+            </md-tab>
+
+            <md-tab label="Doziranje">
+              <md-content class="md-padding">
+                <h1 class="md-display-2">Doziranje i način primene</h1>
+                <a class="text" ng-bind-html="deliberatelyTrustDangerousSnippetDoz()"></a>
+              </md-content>
+            </md-tab>
+
+            <md-tab label="Paralele">
+              <md-content class="md-padding">
+                <h1 class="md-display-2">Paralele</h1>
+                <md-content>
+                  <div layout="row">
+                    <md-list flex="45">
+                      <h3>Naziv</h3>
+                      <md-list-item class="md-3-line" ng-repeat="p in par">
+                        <div class="md-list-item-text">
+                          <p ng-click="uzmiParalelu(this)" class="paralela" ng-bind="p.registeredName"></p>
+                        </div>
+                      </md-list-item>
+                    </md-list>
+                    <div flex></div>
+                    <md-list flex="45">
+                      <h3>Terapijske grupe</h3>
+                      <md-list-item class="md-3-line" ng-repeat="paralela in paralele">
+                        <div class="md-list-item-text">
+                          <!--<p onclick="pretrazi(this)" class="paralela2" ng-bind="paralela.description"></p>-->
+                          <p class="paralela2" ng-bind="paralela.description"></p>
+                        </div>
+                      </md-list-item>
+                    </md-list>
+                  </div>
+                </md-content>
+              </md-content>
+            </md-tab>
+
+            <md-tab label="Trudnoćа">
+              <md-content class="md-padding">
+                <h1 class="md-display-2">Trudnoća i dojenje</h1>
+                <a class="text" ng-bind-html="deliberatelyTrustDangerousSnippetTrud()"></a>
+              </md-content>
+            </md-tab>
+
+            <md-tab label="Indikacije i kontraindikacije">
+              <md-content class="md-padding">
+                <h1 class="md-display-2">Terapijske indikacije</h1>
+                <a class="text" ng-bind-html="deliberatelyTrustDangerousSnippetInd()"></a>
+                <br/><br/>
+                <h1 class="md-display-2">Kontraindikacije</h1>
+                <a class="text" ng-bind-html="deliberatelyTrustDangerousSnippetKonInd()"></a>
+              </md-content>
+            </md-tab>
+
+            <md-tab label="Interakcije">
+              <md-content class="md-padding">
+                <h1 class="md-display-2">Interakcije</h1>
+                <a class="text" ng-bind-html="deliberatelyTrustDangerousSnippetInt()"></a>
+              </md-content>
+            </md-tab>
+
+            <md-tab label="Upozorenja">
+              <md-content class="md-padding">
+                <h1 class="md-display-2">Posebna upozorenja</h1>
+                <h4 class="md-display-2">Vоžnja</h4>
+                <a class="text" ng-bind-html="deliberatelyTrustDangerousSnippetVoz()"></a><br/>
+                <a class="text" ng-bind-html="deliberatelyTrustDangerousSnippetUpoz()"></a>
+              </md-content>
+            </md-tab>
+
+            <md-tab label="Predoziranje">
+              <md-content class="md-padding">
+                <h1 class="md-display-2">Predoziranje</h1>
+                <a class="text" ng-bind-html="deliberatelyTrustDangerousSnippetPredoz()"></a>
+              </md-content>
+            </md-tab>
+
+            <md-tab label="Nuspojave">
+              <md-content class="md-padding">
+                <h1 class="md-display-2">Neželjena dejstva</h1>
+                <a class="text" ng-bind-html="deliberatelyTrustDangerousSnippetNezDej()"></a>
+              </md-content>
+            </md-tab>
+          </md-tabs>
+        </md-content>
+      </div>
+    </md-card>
+  </div>
+
+
+
+  <!--<div flex class="desno" >
+    <md-content>
+      <md-list>
+        <md-list-item class="md-3-line" ng-repeat="paralela in paralele">
+          <div class="md-list-item-text">
+            &lt;!&ndash;<a onclick="pretrazi(this)" ng-click="pretraga(paralela)" class="paralela">{{paralela}}</a>&ndash;&gt;
+            <p onclick="pretrazi(this)" class="paralela">{{paralela.description}}</p>
+          </div>
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </div>-->
+</div>
+
+

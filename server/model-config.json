@@ -1,0 +1,93 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ]
+  },
+  "User": {
+    "dataSource": "db"
+  },
+  "AccessToken": {
+    "dataSource": "db",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": true
+  },
+  "AndroidMetadata": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "Atcs": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "AtcsFts": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "AtcsFtsContent": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "AtcsFtsSegdir": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "AtcsFtsSegments": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "Drugs": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "DrugsFts": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "DrugsFtsContent": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "DrugsFtsSegdir": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "DrugsFtsSegments": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "Guidelines": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "Indications": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "InsuranceLists": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "Issuings": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "Packagings": {
+    "dataSource": "mysqlDs",
+    "public": true
+  }
+}
